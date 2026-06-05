@@ -1,0 +1,6 @@
+{
+  "name": "Amin - Digital Menu Board SaaS Platform",
+  "description": "Centralized multi-tenant system to manage restaurant clients, branches, digital menu screens, products, prices, and promotions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -3,28 +3,48 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { useData } from '../hooks/useData';
-import { Tag, MapPin, Tv, Calendar, AlertCircle, Plus, Info, CheckCircle, Trash2 } from 'lucide-react';
+import React, { useState } from "react";
+import { useData } from "../hooks/useData";
+import {
+  Tag,
+  MapPin,
+  Tv,
+  Calendar,
+  AlertCircle,
+  Plus,
+  Info,
+  CheckCircle,
+  Trash2,
+} from "lucide-react";
 
 export default function PromotionsPage() {
-  const { promotions, branches, screens, restaurants, activeRestaurantId, addPromotion, deletePromotion } = useData();
+  const {
+    promotions,
+    branches,
+    screens,
+    restaurants,
+    activeRestaurantId,
+    addPromotion,
+    deletePromotion,
+  } = useData();
   const [showAddForm, setShowAddForm] = useState(false);
-  
+
   // Promotion form state
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [discountText, setDiscountText] = useState('');
-  const [startDate, setStartDate] = useState('2026-06-01');
-  const [endDate, setEndDate] = useState('2026-08-30');
-  const [selectedRestId, setSelectedRestId] = useState(activeRestaurantId || 'rest-miracle');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [discountText, setDiscountText] = useState("");
+  const [startDate, setStartDate] = useState("2026-06-01");
+  const [endDate, setEndDate] = useState("2026-08-30");
+  const [selectedRestId, setSelectedRestId] = useState(
+    activeRestaurantId || "rest-miracle",
+  );
 
   // Filter list depending on tenant scope
-  const filteredPromos = activeRestaurantId 
-    ? promotions.filter(p => p.restaurantId === activeRestaurantId)
+  const filteredPromos = activeRestaurantId
+    ? promotions.filter((p) => p.restaurantId === activeRestaurantId)
     : promotions;
 
-  const currentRestObj = restaurants.find(r => r.id === activeRestaurantId);
+  const currentRestObj = restaurants.find((r) => r.id === activeRestaurantId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,11 +52,12 @@ export default function PromotionsPage() {
 
     // Grab default gourmet food banner illustrations
     const presetImages = [
-      'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=600&auto=format&fit=crop'
+      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=600&auto=format&fit=crop",
     ];
-    const finalImageUrl = presetImages[Math.floor(Math.random() * presetImages.length)];
+    const finalImageUrl =
+      presetImages[Math.floor(Math.random() * presetImages.length)];
 
     addPromotion({
       restaurantId: activeRestaurantId || selectedRestId,
@@ -48,27 +69,29 @@ export default function PromotionsPage() {
       endDate,
       branchIds: [],
       screenIds: [],
-      status: 'active'
+      status: "active",
     });
 
-    setName('');
-    setDescription('');
-    setDiscountText('');
+    setName("");
+    setDescription("");
+    setDiscountText("");
     setShowAddForm(false);
     alert(`Promotion "${name}" added to active display slates folder.`);
   };
 
   return (
     <div className="space-y-6" id="promotions-manager-page">
-      
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-display font-extrabold text-slate-950 tracking-tight">
-            {activeRestaurantId ? `${currentRestObj?.name} Promotion Campaigns` : 'Global Campaigns & Slates'}
+            {activeRestaurantId
+              ? `${currentRestObj?.name} Promotion Campaigns`
+              : "Global Campaigns & Slates"}
           </h2>
           <p className="text-xs text-slate-500">
-            Push ticker overrides, special combo graphics, and pricing banners targeting digital storefront displays.
+            Push ticker overrides, special combo graphics, and pricing banners
+            targeting digital storefront displays.
           </p>
         </div>
 
@@ -79,15 +102,21 @@ export default function PromotionsPage() {
           id="add-promo-trigger"
         >
           <Plus className="h-4 w-4" />
-          <span>{showAddForm ? 'Cancel Campaign' : 'Launch Campaign'}</span>
+          <span>{showAddForm ? "Cancel Campaign" : "Launch Campaign"}</span>
         </button>
       </div>
 
       {/* Add Promotion Form */}
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-white border border-slate-205 p-6 rounded-2xl shadow-md space-y-4 max-w-2xl" id="add-promotion-form">
-          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest font-mono">Launch New Ticker Campaign</h3>
-          
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border border-slate-200 p-6 rounded-2xl shadow-md space-y-4 max-w-2xl"
+          id="add-promotion-form"
+        >
+          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest font-mono">
+            Launch New Ticker Campaign
+          </h3>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {!activeRestaurantId && (
               <div className="col-span-1 md:col-span-2">
@@ -96,11 +125,13 @@ export default function PromotionsPage() {
                 </label>
                 <select
                   value={selectedRestId}
-                  onChange={e => setSelectedRestId(e.target.value)}
+                  onChange={(e) => setSelectedRestId(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-700 font-semibold"
                 >
-                  {restaurants.map(r => (
-                    <option key={r.id} value={r.id}>{r.name}</option>
+                  {restaurants.map((r) => (
+                    <option key={r.id} value={r.id}>
+                      {r.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -110,12 +141,12 @@ export default function PromotionsPage() {
               <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-700 mb-1">
                 Campaign Title *
               </label>
-              <input 
+              <input
                 type="text"
                 required
                 placeholder="e.g. Midnight Shawarma Deal"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C]/35"
               />
             </div>
@@ -124,12 +155,12 @@ export default function PromotionsPage() {
               <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-700 mb-1">
                 Discount Badging Text *
               </label>
-              <input 
+              <input
                 type="text"
                 required
                 placeholder="e.g. 20% OFF or Save $5.50"
                 value={discountText}
-                onChange={e => setDiscountText(e.target.value)}
+                onChange={(e) => setDiscountText(e.target.value)}
                 className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C]/35"
               />
             </div>
@@ -138,11 +169,11 @@ export default function PromotionsPage() {
               <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-700 mb-1">
                 Brief Description (Shows in sliding TV tickers)
               </label>
-              <input 
+              <input
                 type="text"
                 placeholder="Enter delicious details to display on commercial screens..."
                 value={description}
-                onChange={e => setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C]/35"
               />
             </div>
@@ -151,10 +182,10 @@ export default function PromotionsPage() {
               <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-700 mb-1">
                 Start Date
               </label>
-              <input 
+              <input
                 type="date"
                 value={startDate}
-                onChange={e => setStartDate(e.target.value)}
+                onChange={(e) => setStartDate(e.target.value)}
                 className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs font-mono"
               />
             </div>
@@ -163,24 +194,24 @@ export default function PromotionsPage() {
               <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-700 mb-1">
                 End Date
               </label>
-              <input 
+              <input
                 type="date"
                 value={endDate}
-                onChange={e => setEndDate(e.target.value)}
+                onChange={(e) => setEndDate(e.target.value)}
                 className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs font-mono"
               />
             </div>
           </div>
 
           <div className="flex gap-2 justify-end pt-2">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={() => setShowAddForm(false)}
               className="border border-slate-300 text-slate-705 px-4 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50"
             >
               Cancel
             </button>
-            <button 
+            <button
               type="submit"
               className="bg-[#EA580C] hover:bg-[#EA580C]/95 text-white px-5 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors"
             >
@@ -191,21 +222,36 @@ export default function PromotionsPage() {
       )}
 
       {/* Grid listing */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="promotions-cards-grid">
-        {filteredPromos.map(promo => {
-          const parentRest = restaurants.find(r => r.id === promo.restaurantId);
-          const pBranches = branches.filter(b => b.restaurantId === promo.restaurantId && (promo.branchIds.length === 0 || promo.branchIds.includes(b.id)));
-          const pScreens = screens.filter(s => s.restaurantId === promo.restaurantId && (promo.screenIds.length === 0 || promo.screenIds.includes(s.id)));
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        id="promotions-cards-grid"
+      >
+        {filteredPromos.map((promo) => {
+          const parentRest = restaurants.find(
+            (r) => r.id === promo.restaurantId,
+          );
+          const pBranches = branches.filter(
+            (b) =>
+              b.restaurantId === promo.restaurantId &&
+              (promo.branchIds.length === 0 || promo.branchIds.includes(b.id)),
+          );
+          const pScreens = screens.filter(
+            (s) =>
+              s.restaurantId === promo.restaurantId &&
+              (promo.screenIds.length === 0 || promo.screenIds.includes(s.id)),
+          );
 
           return (
-            <div key={promo.id} className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col sm:flex-row hover:border-[#EA580C]/40 transition-all">
-              
+            <div
+              key={promo.id}
+              className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col sm:flex-row hover:border-[#EA580C]/40 transition-all"
+            >
               {/* Graphic Banner */}
               <div className="relative w-full sm:w-44 h-44 sm:h-auto overflow-hidden shrink-0 bg-slate-100 border-b sm:border-b-0 sm:border-r border-slate-200">
-                <img 
+                <img
                   referrerPolicy="no-referrer"
-                  src={promo.imageUrl} 
-                  alt={promo.name} 
+                  src={promo.imageUrl}
+                  alt={promo.name}
                   className="w-full h-full object-cover"
                 />
                 <span className="absolute top-3 left-3 bg-[#EA580C] text-white text-[10px] font-bold font-mono px-2.5 py-1 rounded shadow-md uppercase">
@@ -215,7 +261,6 @@ export default function PromotionsPage() {
 
               {/* Data Side */}
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                
                 <div className="space-y-1.5 animate-fadeIn">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] uppercase font-mono font-bold text-slate-400">
@@ -226,25 +271,43 @@ export default function PromotionsPage() {
                     </span>
                   </div>
 
-                  <h3 className="text-base font-extrabold text-slate-9c0 font-display leading-snug">{promo.name}</h3>
-                  <p className="text-slate-500 text-xs font-light leading-relaxed truncate max-w-sm" title={promo.description}>{promo.description}</p>
+                  <h3 className="text-base font-extrabold text-slate-900 font-display leading-snug">
+                    {promo.name}
+                  </h3>
+                  <p
+                    className="text-slate-500 text-xs font-light leading-relaxed truncate max-w-sm"
+                    title={promo.description}
+                  >
+                    {promo.description}
+                  </p>
                 </div>
 
                 {/* Allocated Targets lists */}
                 <div className="border-t border-slate-100 pt-3 space-y-2 text-[10px] font-mono text-slate-450">
                   <p className="flex items-center gap-1.5 text-slate-500">
                     <Calendar className="h-3.5 w-3.5 shrink-0" />
-                    <span>Run: {promo.startDate} to {promo.endDate}</span>
+                    <span>
+                      Run: {promo.startDate} to {promo.endDate}
+                    </span>
                   </p>
 
                   <p className="truncate">
                     <MapPin className="h-3.5 w-3.5 inline mr-1 text-slate-450" />
-                    Locations: <span className="text-slate-700 font-semibold">{pBranches.map(b => b.name.split(' ')[1] || b.name).join(', ') || 'All Branches'}</span>
+                    Locations:{" "}
+                    <span className="text-slate-700 font-semibold">
+                      {pBranches
+                        .map((b) => b.name.split(" ")[1] || b.name)
+                        .join(", ") || "All Branches"}
+                    </span>
                   </p>
 
                   <p className="truncate">
                     <Tv className="h-3.5 w-3.5 inline mr-1 text-slate-450" />
-                    Screens: <span className="text-[#EA580C] font-bold">{pScreens.map(s => s.name.split(' (')[0]).join(', ') || 'All Connected Screens'}</span>
+                    Screens:{" "}
+                    <span className="text-[#EA580C] font-bold">
+                      {pScreens.map((s) => s.name.split(" (")[0]).join(", ") ||
+                        "All Connected Screens"}
+                    </span>
                   </p>
                 </div>
 
@@ -264,14 +327,11 @@ export default function PromotionsPage() {
                     <span>Drop Campaign</span>
                   </button>
                 </div>
-
               </div>
-
             </div>
           );
         })}
       </div>
-
     </div>
   );
 }

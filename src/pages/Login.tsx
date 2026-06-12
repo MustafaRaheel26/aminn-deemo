@@ -3,16 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { useData } from '../hooks/useData';
-import { apiService } from '../services/api';
-import { LogIn, Lock, Mail, Sparkles, AlertCircle, Info, ShieldCheck } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState } from "react";
+import { useData } from "../hooks/useData";
+import { apiService } from "../services/api";
+import {
+  LogIn,
+  Lock,
+  Mail,
+  Sparkles,
+  AlertCircle,
+  Info,
+  ShieldCheck,
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Login() {
   const { setCurrentUser } = useData();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,22 +33,27 @@ export default function Login() {
     try {
       const response = await apiService.login(email, password);
       setCurrentUser(response.user);
-      
+
       // Automatically redirect the browser hash to the appropriate home workspace dashboard
-      if (response.user.role === 'super_admin') {
-        window.location.hash = '#/super-dashboard';
+      if (response.user.role === "super_admin") {
+        window.location.hash = "#/super-dashboard";
       } else {
-        window.location.hash = '#/restaurant-dashboard';
+        window.location.hash = "#/restaurant-dashboard";
       }
     } catch (err: any) {
-      setError(err?.message || 'Access Denied. Check your email and password pair.');
+      setError(
+        err?.message || "Access Denied. Check your email and password pair.",
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row shadow-sm" id="login-page">
+    <div
+      className="min-h-screen bg-slate-50 flex flex-col md:flex-row shadow-sm"
+      id="login-page"
+    >
       {/* Visual Left Banner (Toast-inspired branding) */}
       <div className="md:w-1/2 bg-gradient-to-br from-[#EA580C] via-[#EA580C]/95 to-orange-500 text-white flex flex-col justify-between p-12 relative overflow-hidden">
         {/* Abstract pattern decor */}
@@ -51,7 +64,9 @@ export default function Login() {
           <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
             <Sparkles className="h-6 w-6 text-orange-200" />
           </div>
-          <span className="font-display font-bold text-2xl tracking-wider uppercase">Amin Demo</span>
+          <span className="font-display font-bold text-2xl tracking-wider uppercase">
+            Amin Demo
+          </span>
         </div>
 
         <div className="my-auto max-w-lg z-10">
@@ -62,17 +77,23 @@ export default function Login() {
             Transform plates into high-converting digital boards.
           </h1>
           <p className="text-slate-100 text-base leading-relaxed font-sans font-light">
-            Centralized multi-tenant operation. Instantly push custom pricing overrides, daily kitchen boards, high-definition promo triggers, and automatic menus across thousands of global TV screens.
+            Centralized multi-tenant operation. Instantly push custom pricing
+            overrides, daily kitchen boards, high-definition promo triggers, and
+            automatic menus across thousands of global TV screens.
           </p>
 
           <div className="mt-8 grid grid-cols-2 gap-4 border-t border-white/10 pt-8">
             <div>
               <p className="text-2xl font-bold font-display">100%</p>
-              <p className="text-xs text-orange-100 font-sans">Remote Cloud Control</p>
+              <p className="text-xs text-orange-100 font-sans">
+                Remote Cloud Control
+              </p>
             </div>
             <div>
               <p className="text-2xl font-bold font-display">Instant</p>
-              <p className="text-xs text-orange-100 font-sans">Kitchen-to-Screen Sync</p>
+              <p className="text-xs text-orange-100 font-sans">
+                Kitchen-to-Screen Sync
+              </p>
             </div>
           </div>
         </div>
@@ -85,17 +106,35 @@ export default function Login() {
       </div>
 
       {/* Login Form on Right Container */}
-      <div className="md:w-1/2 flex items-center justify-center p-8 lg:p-16 bg-white" id="login-container">
+      <div
+        className="md:w-1/2 flex items-center justify-center p-8 lg:p-16 bg-white"
+        id="login-container"
+      >
         <div className="w-full max-w-md space-y-8">
           <div>
-            <h2 className="text-3xl font-display font-bold text-slate-905 tracking-tight" id="login-welcome-title">Control Hub Login</h2>
-            <p className="text-slate-500 text-sm mt-2">Enter your authorized organization email to sync dashboard parameters.</p>
+            <h2
+              className="text-3xl font-display font-bold text-slate-900 tracking-tight"
+              id="login-welcome-title"
+            >
+              Control Hub Login
+            </h2>
+            <p className="text-slate-500 text-sm mt-2">
+              Enter your authorized organization email to sync dashboard
+              parameters.
+            </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6" id="credential-form">
+          <form
+            onSubmit={handleLogin}
+            className="space-y-6"
+            id="credential-form"
+          >
             {/* Email Input */}
             <div className="space-y-1.55">
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-700 mb-1.5" htmlFor="email-input">
+              <label
+                className="block text-[11px] font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                htmlFor="email-input"
+              >
                 E-Mail Address
               </label>
               <div className="relative">
@@ -117,10 +156,15 @@ export default function Login() {
             {/* Password Input (Now fully editable, custom feedback) */}
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-700" htmlFor="password-input">
+                <label
+                  className="block text-[11px] font-semibold uppercase tracking-wider text-slate-700"
+                  htmlFor="password-input"
+                >
                   Lock Phrase / Security PIN
                 </label>
-                <span className="text-[10px] text-[#EA580C] hover:underline cursor-pointer font-semibold font-mono">Password SSO</span>
+                <span className="text-[10px] text-[#EA580C] hover:underline cursor-pointer font-semibold font-mono">
+                  Password SSO
+                </span>
               </div>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -141,15 +185,20 @@ export default function Login() {
             {/* Remember Me and Forgot Password */}
             <div className="flex items-center justify-between text-xs text-slate-650 pt-1">
               <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="rounded border-slate-300 text-[#EA580C] focus:ring-[#EA580C] accent-[#EA580C] h-4 w-4"
                 />
                 <span>Remember this terminal</span>
               </label>
-              <a href="#" className="font-semibold text-[#EA580C] hover:underline">Forgot PIN?</a>
+              <a
+                href="#"
+                className="font-semibold text-[#EA580C] hover:underline"
+              >
+                Forgot PIN?
+              </a>
             </div>
 
             {/* Error Message rendering with Motion */}
@@ -192,9 +241,12 @@ export default function Login() {
           <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex items-start gap-3 text-xs text-slate-600">
             <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-slate-800 uppercase text-[10px] tracking-widest font-mono block">Zero-Trust Secure Core</span>
-              <p className="text-[11px] text-slate-550 leading-relaxed mt-0.5">
-                Every request undergoes real-time server signature verification. Access tokens lapse automatically upon session termination.
+              <span className="font-bold text-slate-800 uppercase text-[10px] tracking-widest font-mono block">
+                Zero-Trust Secure Core
+              </span>
+              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
+                Every request undergoes real-time server signature verification.
+                Access tokens lapse automatically upon session termination.
               </p>
             </div>
           </div>
@@ -202,7 +254,9 @@ export default function Login() {
           {/* Footnotes */}
           <div className="pt-2 text-center text-[11px] text-slate-400 border-t border-slate-100">
             <p>© 2026 Amin Technologies S.R.O. All Rights Reserved.</p>
-            <p className="mt-0.5 text-slate-300">Managed under Cloud Infrastructure License.</p>
+            <p className="mt-0.5 text-slate-300">
+              Managed under Cloud Infrastructure License.
+            </p>
           </div>
         </div>
       </div>
